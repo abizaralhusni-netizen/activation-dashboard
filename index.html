@@ -8,14 +8,486 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <link rel="stylesheet" href="src/styles/styles.css">
+    <style>
+        /* TEMPORARY: Copy semua CSS dari file styles.css ke sini */
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        
+        .login-container {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* ... (copy semua CSS dari file asli) ... */
+    </style>
 </head>
 <body>
-    <!-- Existing HTML structure remains the same -->
-    <!-- Only change the script references at the bottom -->
+    <!-- Login Page -->
+    <div id="login-page" class="container-fluid">
+        <div class="login-container">
+            <h2 class="text-center mb-4">Admin Login</h2>
+            <form id="login-form">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="username" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100 btn-primary-custom">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main Application (Hidden Initially) -->
+    <div id="app" class="d-none">
+        <!-- Navigation Bar -->
+        <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">
+                    <i class="fas fa-chart-line me-2"></i>
+                    Activation Dashboard System
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-user me-1"></i> <span id="user-name">Admin</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#" data-page="change-password"><i class="fas fa-key me-2"></i>Ubah Password</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#" id="logout-btn"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container-fluid">
+            <div class="row">
+                <!-- Sidebar -->
+                <div class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+                    <div class="position-sticky pt-3">
+                        <ul class="nav flex-column">
+                            <li>
+                                <a href="#" class="nav-link active" data-page="dashboard">
+                                    <i class="fas fa-tachometer-alt me-2"></i> Dashboard
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="nav-link" data-page="activation-detail">
+                                    <i class="fas fa-list me-2"></i> Activation Detail
+                                </a>
+                            </li>
+                            <li id="admin-upload-link" class="d-none">
+                                <a href="#" class="nav-link" data-page="upload">
+                                    <i class="fas fa-upload me-2"></i> Upload Data
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="nav-link" data-page="change-password">
+                                    <i class="fas fa-key me-2"></i> Ubah Password
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="nav-link" id="logout-sidebar-btn">
+                                    <i class="fas fa-sign-out-alt me-2"></i> Logout
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Main Content -->
+                <div class="col-md-9 col-lg-10 ms-sm-auto px-md-4 main-content">
+                    <!-- Dashboard Section -->
+                    <div id="dashboard" class="page-section active">
+                        <h1 class="dashboard-title">Activation Real Time VIVA CLUSTER 1 - WEST JAVA</h1>
+                        
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="stat-card">
+                                    <div class="stat-label">TOTAL TARGET</div>
+                                    <div class="stat-value" id="total-target">2,713</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stat-card">
+                                    <div class="stat-label">TOTAL ACTIVATION</div>
+                                    <div class="stat-value" id="total-activation">509</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stat-card">
+                                    <div class="stat-label">ACHIEVEMENT</div>
+                                    <div class="stat-value" id="achievement">18.76%</div>
+                                    <div class="progress progress-custom">
+                                        <div class="progress-bar" role="progressbar" id="achievement-bar" style="width: 18.76%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stat-card">
+                                    <div class="stat-label">SGS ACTIVATION</div>
+                                    <div class="stat-value" id="sgs-activation">227</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card card-custom">
+                            <div class="card-header card-header-custom">
+                                <h5 class="mb-0">Dashboard ASC</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover table-custom" id="asc-table">
+                                        <thead>
+                                            <tr>
+                                                <th>CLUSTER</th>
+                                                <th>ASC</th>
+                                                <th>TARGET</th>
+                                                <th>SGS</th>
+                                                <th>SDS</th>
+                                                <th>RETAIL</th>
+                                                <th>TOTAL</th>
+                                                <th>AGH%</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="asc-table-body">
+                                            <!-- Data akan diisi oleh JavaScript -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <div class="note-box">
+                                    <i class="fas fa-exclamation-circle me-2"></i>
+                                    <strong>Note:</strong> Segera follow-up Team (SGS/SDS/Retail dengan nilai 0).
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Activation Detail Section -->
+                    <div id="activation-detail" class="page-section">
+                        <h1 class="dashboard-title">Activation Detail</h1>
+                        
+                        <!-- Summary Cards -->
+                        <div class="row summary-cards">
+                            <div class="col-md-3">
+                                <div class="summary-card sgs">
+                                    <div class="summary-label">TOTAL SGS</div>
+                                    <div class="summary-value" id="summary-sgs">0</div>
+                                    <div class="summary-label">Customer MDN</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="summary-card sds">
+                                    <div class="summary-label">TOTAL SDS</div>
+                                    <div class="summary-value" id="summary-sds">0</div>
+                                    <div class="summary-label">Customer MDN</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="summary-card retail">
+                                    <div class="summary-label">TOTAL RETAIL</div>
+                                    <div class="summary-value" id="summary-retail">0</div>
+                                    <div class="summary-label">Customer MDN</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="summary-card total">
+                                    <div class="summary-label">TOTAL ALL</div>
+                                    <div class="summary-value" id="summary-total">0</div>
+                                    <div class="summary-label">Customer MDN</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card card-custom">
+                            <div class="card-header card-header-custom d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">Activation Detail</h5>
+                                <button class="btn btn-sm btn-light export-btn" id="export-detail-btn">
+                                    <i class="fas fa-download me-1"></i> Export
+                                </button>
+                            </div>
+                            <div class="card-body">
+                                <div class="filter-section">
+                                    <h6>Filter:</h6>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label for="sub-cluster-filter" class="form-label">AI SUB CLUSTER</label>
+                                            <select class="form-select" id="sub-cluster-filter">
+                                                <option value="all" selected>Semua Sub Cluster</option>
+                                                <!-- Options akan diisi oleh JavaScript -->
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="category-filter" class="form-label">Kategori</label>
+                                            <select class="form-select" id="category-filter">
+                                                <option value="all" selected>Semua Kategori</option>
+                                                <option value="sgs">SGS</option>
+                                                <option value="sds">SDS</option>
+                                                <option value="retail">Retail</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="search-filter" class="form-label">Cari (Nama/NIK)</label>
+                                            <input type="text" class="form-control" id="search-filter" placeholder="Masukkan nama atau NIK...">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Parallel Layout for SGS, SDS, and Retail -->
+                                <div class="parallel-layout">
+                                    <!-- SGS Section -->
+                                    <div class="parallel-section">
+                                        <div class="parallel-header sgs-header">
+                                            <i class="fas fa-user-tie me-2"></i> SGS Activation
+                                        </div>
+                                        <div class="parallel-body">
+                                            <table class="parallel-table" id="sgs-detail-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>SUB CLUSTER</th>
+                                                        <th>NIK</th>
+                                                        <th>NAMA</th>
+                                                        <th>TOTAL</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="sgs-detail-body">
+                                                    <!-- Data akan diisi oleh JavaScript -->
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- SDS Section -->
+                                    <div class="parallel-section">
+                                        <div class="parallel-header sds-header">
+                                            <i class="fas fa-user-friends me-2"></i> SDS Activation
+                                        </div>
+                                        <div class="parallel-body">
+                                            <table class="parallel-table" id="sds-detail-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>SUB CLUSTER</th>
+                                                        <th>NIK</th>
+                                                        <th>NAMA</th>
+                                                        <th>TOTAL</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="sds-detail-body">
+                                                    <!-- Data akan diisi oleh JavaScript -->
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Retail Section -->
+                                    <div class="parallel-section">
+                                        <div class="parallel-header retail-header">
+                                            <i class="fas fa-store me-2"></i> Retail Activation
+                                        </div>
+                                        <div class="parallel-body">
+                                            <table class="parallel-table" id="retail-detail-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>SUB CLUSTER</th>
+                                                        <th>NIK</th>
+                                                        <th>NAMA</th>
+                                                        <th>TOTAL</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="retail-detail-body">
+                                                    <!-- Data akan diisi oleh JavaScript -->
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Upload Section (Only for Admin) -->
+                    <div id="upload" class="page-section">
+                        <h1 class="dashboard-title">Upload Excel Data</h1>
+                        
+                        <div class="card card-custom">
+                            <div class="card-header card-header-custom">
+                                <h5 class="mb-0">Upload File</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="upload-area">
+                                    <i class="fas fa-cloud-upload-alt fa-3x mb-3 text-muted"></i>
+                                    <h5>Seret file Excel ke sini atau klik untuk mengunggah</h5>
+                                    <p class="text-muted">Format yang didukung: .xlsx, .xls</p>
+                                    <input type="file" id="file-upload" class="d-none" accept=".xlsx,.xls">
+                                    <button class="btn btn-primary btn-primary-custom mt-3" id="upload-trigger">
+                                        <i class="fas fa-upload me-2"></i> Upload Excel Raw ACT
+                                    </button>
+                                </div>
+                                
+                                <div class="mt-4">
+                                    <h5>File Tersimpan</h5>
+                                    <ul class="file-list" id="file-list">
+                                        <!-- File list akan diisi oleh JavaScript -->
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Change Password Section -->
+                    <div id="change-password" class="page-section">
+                        <h1 class="dashboard-title">Ubah Password</h1>
+                        
+                        <div class="card card-custom">
+                            <div class="card-header card-header-custom">
+                                <h5 class="mb-0">Form Ubah Password</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="password-form-container">
+                                    <form id="change-password-form">
+                                        <div class="mb-3">
+                                            <label for="current-password" class="form-label">Password Saat Ini</label>
+                                            <input type="password" class="form-control" id="current-password" required>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="new-password" class="form-label">Password Baru</label>
+                                            <input type="password" class="form-control" id="new-password" required>
+                                            <div class="password-strength" id="password-strength"></div>
+                                            <div class="password-requirements">
+                                                <small>Password harus mengandung minimal 8 karakter, termasuk huruf besar, huruf kecil, angka, dan simbol.</small>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="confirm-password" class="form-label">Konfirmasi Password Baru</label>
+                                            <input type="password" class="form-control" id="confirm-password" required>
+                                            <div class="invalid-feedback" id="confirm-password-feedback">
+                                                Konfirmasi password tidak sesuai.
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="d-grid gap-2">
+                                            <button type="submit" class="btn btn-primary btn-primary-custom">
+                                                <i class="fas fa-save me-2"></i> Simpan Password Baru
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for SGS/SDS Customer MDN -->
+    <div class="modal fade" id="mdnModal" tabindex="-1" aria-labelledby="mdnModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="mdnModalLabel">Detail Customer MDN</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="user-info mb-3">
+                        <h6>Informasi User</h6>
+                        <div><strong>Sub Cluster:</strong> <span id="modal-sub-cluster"></span></div>
+                        <div><strong>NIK:</strong> <span id="modal-nik"></span></div>
+                        <div><strong>Nama:</strong> <span id="modal-nama"></span></div>
+                        <div><strong>Total Aktivasi:</strong> <span id="modal-total"></span></div>
+                    </div>
+                    <h6>Daftar Customer MDN</h6>
+                    <div class="mdn-list" id="mdn-list">
+                        <!-- MDN list will be populated by JavaScript -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Retail Details -->
+    <div class="modal fade" id="retailModal" tabindex="-1" aria-labelledby="retailModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="retailModalLabel">Detail Retail Activation</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="user-info mb-3">
+                        <h6>Informasi User</h6>
+                        <div><strong>Sub Cluster:</strong> <span id="retail-modal-sub-cluster"></span></div>
+                        <div><strong>NIK:</strong> <span id="retail-modal-nik"></span></div>
+                        <div><strong>Nama:</strong> <span id="retail-modal-nama"></span></div>
+                        <div><strong>Total Aktivasi:</strong> <span id="retail-modal-total"></span></div>
+                    </div>
+                    <div class="user-detail">
+                        <div><strong>PERFORMED USER LOGIN ID:</strong> <span id="retail-performed-login-id"></span></div>
+                        <div><strong>PERFORMED USER NAME:</strong> <span id="retail-performed-user-name"></span></div>
+                    </div>
+                    <h6>Daftar Customer MDN</h6>
+                    <div class="mdn-list" id="retail-mdn-list">
+                        <!-- MDN list will be populated by JavaScript -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="src/database/supabase.js"></script>
-    <script src="src/scripts/app.js"></script>
+    <script>
+        // TEMPORARY: Copy semua JavaScript dari app.js dan supabase.js ke sini
+        // Supabase configuration
+        const SUPABASE_URL = 'https://hefwckcjntblrfidwpqc.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhlZndya2NqbnRibHJmaWR3cHFjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM0ODE3ODAsImV4cCI6MjA3OTA1Nzc4MH0.ue-9QEBK9H0uhYBcpMsHPMOXHTXE_hlu6CAdl1l-gnA';
+
+        // Initialize Supabase client
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        class DatabaseService {
+            // ... (copy semua method dari supabase.js) ...
+        }
+
+        // Initialize
+        window.dbService = new DatabaseService();
+
+        // Main app logic
+        document.addEventListener('DOMContentLoaded', function() {
+            // ... (copy semua logic dari app.js) ...
+        });
+    </script>
 </body>
 </html>
