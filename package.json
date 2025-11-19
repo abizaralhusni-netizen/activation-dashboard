@@ -1,0 +1,17 @@
+{
+  "name": "activation-dashboard",
+  "version": "1.0.0",
+  "description": "Activation Dashboard System",
+  "main": "index.js",
+  "scripts": {
+    "build": "mkdir -p dist && cp -r index.html src/ dist/",
+    "dev": "npx serve .",
+    "deploy": "npm run build && npx supabase deploy"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.38.0"
+  },
+  "devDependencies": {
+    "supabase": "^1.123.7"
+  }
+}

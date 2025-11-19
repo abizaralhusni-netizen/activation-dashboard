@@ -1,0 +1,482 @@
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --accent-color: #e74c3c;
+    --light-color: #ecf0f1;
+    --dark-color: #2c3e50;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+.login-container {
+    max-width: 400px;
+    margin: 100px auto;
+    padding: 30px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-custom {
+    background-color: var(--primary-color);
+}
+
+.sidebar {
+    background-color: var(--dark-color);
+    color: white;
+    min-height: calc(100vh - 56px);
+    padding-top: 20px;
+}
+
+.sidebar a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    padding: 10px 20px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    transition: all 0.3s;
+}
+
+.sidebar a:hover, .sidebar a.active {
+    background-color: var(--secondary-color);
+}
+
+.main-content {
+    padding: 20px;
+}
+
+.card-custom {
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    border: none;
+}
+
+.card-header-custom {
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 10px 10px 0 0 !important;
+}
+
+.table-custom th {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.upload-area {
+    border: 2px dashed #ccc;
+    border-radius: 10px;
+    padding: 40px;
+    text-align: center;
+    margin-bottom: 20px;
+    background-color: #f8f9fa;
+    transition: all 0.3s;
+}
+
+.upload-area:hover {
+    border-color: var(--secondary-color);
+    background-color: #e9f7fe;
+}
+
+.file-list {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.file-list li {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.file-list li:last-child {
+    border-bottom: none;
+}
+
+.btn-primary-custom {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+.btn-primary-custom:hover {
+    background-color: #2980b9;
+    border-color: #2980b9;
+}
+
+.dashboard-title {
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--secondary-color);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.stat-card {
+    background: linear-gradient(135deg, var(--secondary-color), #1a5276);
+    color: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.progress-custom {
+    height: 10px;
+    margin-top: 10px;
+}
+
+.note-box {
+    background-color: #fff8e1;
+    border-left: 4px solid #ffc107;
+    padding: 15px;
+    margin: 20px 0;
+}
+
+.filter-section {
+    background-color: white;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.page-section {
+    display: none;
+}
+
+.page-section.active {
+    display: block;
+}
+
+.sub-cluster-filter {
+    margin-bottom: 15px;
+}
+
+.notification {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    z-index: 1050;
+    max-width: 350px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    overflow: hidden;
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.notification-success {
+    background-color: #d4edda;
+    border-left: 4px solid #28a745;
+}
+
+.notification-error {
+    background-color: #f8d7da;
+    border-left: 4px solid #dc3545;
+}
+
+.file-actions {
+    display: flex;
+    gap: 5px;
+}
+
+.table-detail th {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.table-detail td {
+    vertical-align: middle;
+}
+
+/* New styles for improved Activation Detail */
+.summary-cards {
+    margin-bottom: 20px;
+}
+
+.summary-card {
+    border-radius: 10px;
+    padding: 15px;
+    color: white;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.summary-card.sgs {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+}
+
+.summary-card.sds {
+    background: linear-gradient(135deg, #2ecc71, #27ae60);
+}
+
+.summary-card.retail {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+}
+
+.summary-card.total {
+    background: linear-gradient(135deg, #9b59b6, #8e44ad);
+}
+
+.summary-value {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.summary-label {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.detail-section {
+    margin-bottom: 25px;
+}
+
+.detail-section h5 {
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #eee;
+}
+
+.customer-mdn {
+    font-family: monospace;
+    background-color: #f8f9fa;
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid #dee2e6;
+}
+
+.table-responsive {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.table-detail thead th {
+    font-weight: 600;
+}
+
+.table-detail tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.03);
+}
+
+.badge-count {
+    font-size: 0.8rem;
+    padding: 4px 8px;
+}
+
+.no-data {
+    text-align: center;
+    padding: 20px;
+    color: #6c757d;
+    font-style: italic;
+}
+
+.export-btn {
+    margin-left: 10px;
+}
+
+/* New styles for parallel layout */
+.parallel-layout {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.parallel-section {
+    flex: 1;
+    min-width: 300px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.parallel-header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 15px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.parallel-body {
+    padding: 15px;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.parallel-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.parallel-table th {
+    background-color: #f8f9fa;
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #dee2e6;
+    font-weight: 600;
+}
+
+.parallel-table td {
+    padding: 10px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.parallel-table tr:last-child td {
+    border-bottom: none;
+}
+
+.parallel-table tr:hover {
+    background-color: #f8f9fa;
+}
+
+.sgs-header {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+}
+
+.sds-header {
+    background: linear-gradient(135deg, #2ecc71, #27ae60);
+}
+
+.retail-header {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+}
+
+/* Styles for popup modal */
+.total-link {
+    cursor: pointer;
+    color: #007bff;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.total-link:hover {
+    color: #0056b3;
+}
+
+.mdn-list {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-top: 10px;
+}
+
+.mdn-item {
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+    font-family: monospace;
+}
+
+.mdn-item:last-child {
+    border-bottom: none;
+}
+
+.user-detail {
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+}
+
+.user-detail strong {
+    display: inline-block;
+    width: 180px;
+}
+
+/* Styles for change password page */
+.password-form-container {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.password-strength {
+    height: 5px;
+    margin-top: 5px;
+    border-radius: 2px;
+}
+
+.password-weak {
+    background-color: #dc3545;
+    width: 33%;
+}
+
+.password-medium {
+    background-color: #ffc107;
+    width: 66%;
+}
+
+.password-strong {
+    background-color: #28a745;
+    width: 100%;
+}
+
+.password-requirements {
+    font-size: 0.85rem;
+    color: #6c757d;
+    margin-top: 10px;
+}
+
+/* Loading states */
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #3498db;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 2s linear infinite;
+    margin: 20px auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .parallel-layout {
+        flex-direction: column;
+    }
+    
+    .parallel-section {
+        min-width: 100%;
+    }
+    
+    .sidebar {
+        min-height: auto;
+    }
+    
+    .stat-card {
+        margin-bottom: 15px;
+    }
+}

@@ -1,0 +1,19 @@
+activation-dashboard/
+├── .github/
+│   └── workflows/
+│       └── deploy.yml
+├── supabase/
+│   ├── migrations/
+│   │   └── 001_initial_schema.sql
+│   └── config.toml
+├── src/
+│   ├── database/
+│   │   └── supabase.js
+│   ├── styles/
+│   │   └── styles.css
+│   └── scripts/
+│       └── app.js
+├── index.html
+├── package.json
+├── .gitignore
+└── README.md

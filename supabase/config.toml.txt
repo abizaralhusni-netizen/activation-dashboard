@@ -1,0 +1,5 @@
+[api]
+project_id = "hefwckcjntblrfidwpqc"
+
+[auth]
+site_url = "https://hefwckcjntblrfidwpqc.supabase.co"
